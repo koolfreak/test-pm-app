@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,30 +15,32 @@ class Dashboard extends Controller {
 
     public function index()
     {
-        
+        $tickets = IssueTicket::where('user_id', session()->get('user_id'))->get();
+
+        return view('customer.index')->with('tickets', $tickets);
     }
 
     public function createTicket(Request $request)
     {
-        $user = Auth::user();
+        //$user = Auth::user();
 
         $ticket = new IssueTicket;
-        $ticket->user_id = $user->id;
+        $ticket->user_id = session()->get('user_id');
         $ticket->title = $request->input('title');
-        $ticket->description = $request->input('title');
+        $ticket->description = $request->input('description');
         $ticket_id = $this->getToken(5).'-'.$this->getToken(5).'-'.$this->getToken(5).'-'.$this->getToken(8);
         $ticket->ticket_id = $ticket_id;
         $ticket->save();
 
         // TODO send email to customer
 
-        return response()->json(['success'=>true]);
+        return redirect()->route('customer-main');
     }
 
-    public function ticketList()
+    public function addTicket()
     {
-        $tickets = IssueTicket::all();
-        
+       
+        return view('customer.add_ticket');
     }
 
     public function ticketReplies($ticket_id)

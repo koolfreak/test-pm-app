@@ -13,5 +13,22 @@
 
 Route::get('/', function () {    return view('main.login'); });
 Route::get('/login', function () {    return view('main.login'); });
-
 Route::post('/login', 'Auth\LoginController@authenticate')->name('main-login');
+
+
+Route::middleware(['auth'])->group(function () {
+
+
+    Route::prefix('admin')->group( function (){
+        
+        Route::get('/', 'Admin\Dashboard@index')->name('admin-main');
+
+    });
+
+    Route::prefix('customer')->group( function (){
+        Route::get('/', 'Customer\Dashboard@index')->name('customer-main');
+        Route::get('/ticket/add', 'Customer\Dashboard@addTicket')->name('customer-ticket-add');
+        Route::post('/ticket/store', 'Customer\Dashboard@createTicket')->name('customer-ticket-store');
+    });
+
+});

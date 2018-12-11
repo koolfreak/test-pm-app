@@ -61,12 +61,12 @@ class LoginController extends Controller
                   return redirect()->route('admin-main');
                 }else{
                   session()->put('user_id', $u->id);
-                  return redirect()->route('applicant-main');
+                  return redirect()->route('customer-main');
                 }
               
   
           }
-          return redirect('/manage/login')->with('status', 'Invalid username or password');
+          return redirect('/login')->with('status', 'Invalid username or password');
       }
   
       public function logout(){
