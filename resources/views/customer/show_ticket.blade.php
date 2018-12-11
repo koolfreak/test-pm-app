@@ -85,7 +85,7 @@
                 'ticket_id': $('#ticket_id').val(),
                 'message': $('#ticketReply').val()
             }
-            $.post("{{ route('admin-ticket-add-reply') }}", params, function(result){
+            $.post("{{ route('customer-ticket-add-reply') }}", params, function(result){
                 alert('Success');
                 location.reload();
             });

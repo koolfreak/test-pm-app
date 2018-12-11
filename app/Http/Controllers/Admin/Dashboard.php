@@ -30,12 +30,20 @@ class Dashboard extends Controller {
 
     public function addReply(Request $request)
     {
+        $ticket_id = $request->input('ticket_id');
         $reply = new IssueTicketReply;
-        $reply->ticket_id = $request->input('ticket_id');
+        $reply->ticket_id = $ticket_id;
         $reply->user_id = session()->get('user_id');
         $reply->message = $request->input('message');
         $reply->rating = 0;
         $reply->save();
+
+        // update the status of ticket once there is a reply from admin
+        $ticket = IssueTicket::find($ticket_id);
+        if( $ticket->status == 0 ){
+            $ticket->status = 1;
+            $ticket->save();
+        }
 
         return response()->json(['success'=>true]);
     }
