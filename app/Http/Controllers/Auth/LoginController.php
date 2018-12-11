@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -34,6 +34,41 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        //$this->middleware('guest')->except('logout');
     }
+
+    public function index()
+    {
+      return view('auth.index');
+    }
+
+    public function authenticate(){
+
+        $password = request('password');
+        $email = request('email');
+        
+        if (Auth::attempt(['email' => $email, 'password' => $password ])) {
+              // Authentication passed...
+              
+                $u = Auth::user();
+                session()->put('role', $u->role);
+                session()->put('current_user', $u->name);
+  
+                auth()->login(Auth::user());
+                if( $u->role == 'admin' ){
+                  return redirect()->route('admin-main');
+                }else{
+                  session()->put('user_id', $u->id);
+                  return redirect()->route('applicant-main');
+                }
+              
+  
+          }
+          return redirect('/manage/login')->with('status', 'Invalid username or password');
+      }
+  
+      public function logout(){
+        Auth::logout();
+        return redirect('/');
+      }
 }
