@@ -15,6 +15,17 @@ class Dashboard extends Controller {
 
     public function index(){
 
+        $tickets = IssueTicket::whereIn('status', [0,1])->get();
+        return view('admin.index')->with('tickets', $tickets);
+    }
+
+    public function ticketReplies($ticket_id)
+    {
+        $replies = array();
+        $ticket = IssueTicket::find( $ticket_id );
+        $ticket_replies = $ticket->replies;
+
+        return view('admin.reply_ticket')->with('ticket', $ticket)->with('replies', $ticket_replies); // replies here
     }
 
 }

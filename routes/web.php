@@ -14,6 +14,7 @@
 Route::get('/', function () {    return view('main.login'); });
 Route::get('/login', function () {    return view('main.login'); });
 Route::post('/login', 'Auth\LoginController@authenticate')->name('main-login');
+Route::get('/logout', 'Auth\LoginController@logout');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -22,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->group( function (){
         
         Route::get('/', 'Admin\Dashboard@index')->name('admin-main');
+        Route::get('/ticket/reply/{id}', 'Admin\Dashboard@ticketReplies')->name('admin-ticket-reply');
 
     });
 
