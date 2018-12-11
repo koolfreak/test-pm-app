@@ -37,7 +37,8 @@
               <span class="card-title">Login</span>
               
                 <div class="row">
-                    <form action="" method="POST" class="col s12">
+                    <form action="{{ route('main-login') }}" method="POST" class="col s12">
+                        {{ csrf_field() }}
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input id="email" type="email" name="email" class="validate">

@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {    return view('main.login'); });
+Route::get('/login', function () {    return view('main.login'); });
 
 Route::post('/login', 'Auth\LoginController@authenticate')->name('main-login');
