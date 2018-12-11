@@ -36,7 +36,7 @@
                          @endif
                     </td>
                      <td>
-                         <a href="">View Reply</a>
+                         <a href="{{ route('customer-ticket-replies',$ticket->id) }}">View Reply</a>
                      </td>
                  </tr>
                 @endforeach

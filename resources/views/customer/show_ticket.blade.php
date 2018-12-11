@@ -3,10 +3,7 @@
 @section('main_content')
 <div class="row">
         <div class="row">
-            <div class="col s12">
-                <label style="display: inline;">From:</label>
-                <span>{{ $ticket->user->name }}</span>
-            </div>
+            
             <div class="col s12">
                 <label style="display: inline;">Title:</label>
                 <span>{{ $ticket->title }}</span>
@@ -39,9 +36,18 @@
                                     <p>{{ $reply->message }}</p>
                                 </div>
                             </div>
-                            @if( $reply->rating > 0 )
-                            <p><b>{{ $reply->rating }}</b> stars</p>
-                            @endif
+                            <div class="row">
+                                <div class="input-field col s2">
+                                    <select id="{{ $reply->id }}" class="reply_rating">
+                                        <option value="">Rate</option>
+                                        <option value="1" {{ $reply->rating == 1 ? 'selected="selected"':'' }}>1</option>
+                                        <option value="2" {{ $reply->rating == 2 ? 'selected="selected"':'' }}>2</option>
+                                        <option value="3" {{ $reply->rating == 3 ? 'selected="selected"':'' }}>3</option>
+                                        <option value="4" {{ $reply->rating == 4 ? 'selected="selected"':'' }}>4</option>
+                                        <option value="5" {{ $reply->rating == 5 ? 'selected="selected"':'' }}>5</option>
+                                    </select>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -66,6 +72,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
+        $('select').formSelect();
+
         $.ajaxSetup({
             headers: {
                     'X-CSRF-TOKEN': "{!! csrf_token() !!}"
@@ -73,17 +81,25 @@
         });
 
         $('#sendReply').click(function(){
-
             var params = {
                 'ticket_id': $('#ticket_id').val(),
                 'message': $('#ticketReply').val()
             }
-
             $.post("{{ route('admin-ticket-add-reply') }}", params, function(result){
                 alert('Success');
                 location.reload();
             });
+        });
 
+        $('.reply_rating').change(function(){
+            var params = {
+                'reply_id': $(this).prop('id'),
+                'star': $(this).val()
+            }
+
+            $.post("{{ route('customer-ticket-rate') }}", params, function(result){
+                alert("Rate success...");
+            });
         });
 
     });

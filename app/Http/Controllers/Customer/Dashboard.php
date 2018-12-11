@@ -22,8 +22,6 @@ class Dashboard extends Controller {
 
     public function createTicket(Request $request)
     {
-        //$user = Auth::user();
-
         $ticket = new IssueTicket;
         $ticket->user_id = session()->get('user_id');
         $ticket->title = $request->input('title');
@@ -39,7 +37,6 @@ class Dashboard extends Controller {
 
     public function addTicket()
     {
-       
         return view('customer.add_ticket');
     }
 
@@ -49,11 +46,16 @@ class Dashboard extends Controller {
         $ticket = IssueTicket::find( $ticket_id );
         $ticket_replies = $ticket->replies;
 
-        foreach ($ticket_replies as $reply ) {
-            array_push($replies, $reply);
-        }
+        return view('customer.show_ticket')->with('ticket', $ticket)->with('replies', $ticket_replies); // replies here
+    }
 
-        return []; // replies here
+    public function rateReply(Request $request)
+    {
+        $ticket = IssueTicketReply::find( $request->input('reply_id') );
+        $ticket->rating = $request->input('star');
+        $ticket->save();
+
+        return response()->json(['success'=>true]);
     }
 
     private function getToken($length){
