@@ -16,7 +16,7 @@ class CreateIssueTicketRepliesTable extends Migration
         Schema::create('issue_ticket_replies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ticket_id')->unsigned();
-            $table->integer('staff_id')->unsigned();
+            $table->integer('user_id')->unsigned(); // user who reply to the ticket
             $table->string('message');
             $table->integer('rating');
             $table->timestamps();

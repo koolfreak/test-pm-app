@@ -15,7 +15,7 @@ class CreateIssueTicketsTable extends Migration
     {
         Schema::create('issue_tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->unsigned();
+            $table->integer('user_id')->unsigned(); // customer id
             $table->string('title');
             $table->string('description');
             $table->string('ticket_id');
