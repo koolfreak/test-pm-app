@@ -55,12 +55,12 @@ class LoginController extends Controller
                 $u = Auth::user();
                 session()->put('role', $u->role);
                 session()->put('current_user', $u->name);
-  
+                session()->put('user_id', $u->id);
+
                 auth()->login(Auth::user());
                 if( $u->role == 'admin' ){
                   return redirect()->route('admin-main');
                 }else{
-                  session()->put('user_id', $u->id);
                   return redirect()->route('customer-main');
                 }
               

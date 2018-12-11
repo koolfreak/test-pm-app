@@ -28,4 +28,16 @@ class Dashboard extends Controller {
         return view('admin.reply_ticket')->with('ticket', $ticket)->with('replies', $ticket_replies); // replies here
     }
 
+    public function addReply(Request $request)
+    {
+        $reply = new IssueTicketReply;
+        $reply->ticket_id = $request->input('ticket_id');
+        $reply->user_id = session()->get('user_id');
+        $reply->message = $request->input('message');
+        $reply->rating = 0;
+        $reply->save();
+
+        return response()->json(['success'=>true]);
+    }
+
 }
