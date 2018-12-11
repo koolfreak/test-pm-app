@@ -33,7 +33,8 @@
                          
                     </td>
                      <td>
-                         <a href="{{ route('admin-ticket-reply', $ticket->id) }}">Reply</a>
+                         <a href="{{ route('admin-ticket-reply', $ticket->id) }}">Reply</a>&nbsp;|&nbsp;
+                         <a href="{{ route('admin-ticket-close',$ticket->id) }}">Close</a>
                      </td>
                  </tr>
                 @endforeach

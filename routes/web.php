@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'Admin\Dashboard@index')->name('admin-main');
         Route::get('/ticket/reply/{id}', 'Admin\Dashboard@ticketReplies')->name('admin-ticket-reply');
         Route::post('/ticket/reply/add', 'Admin\Dashboard@addReply')->name('admin-ticket-add-reply');
+        Route::get('/ticket/close/{ticket_id}', 'Admin\Dashboard@closeTicket')->name('admin-ticket-close');
 
     });
 

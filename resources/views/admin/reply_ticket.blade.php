@@ -57,7 +57,7 @@
                 <button class="btn waves-effect waves-light" type="button" id="sendReply">Reply
                     <i class="material-icons left">reply</i>
                 </button>
-            
+                <a href="{{ route('admin-main') }}" class="waves-effect waves-light btn-small">Cancel</a>
         </div>
 
 </div>

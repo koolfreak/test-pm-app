@@ -73,10 +73,10 @@ class Dashboard extends Controller {
         $data['ticket_id'] = $ticket->ticket_id;
         $data['subject'] = "Closed ticket # ".$ticket->ticket_id;
         $user = $ticket->user;
-        $user['to_name'] = $user->name;
-        $user['from'] = 'admin@pm.com';
+        $data['to_name'] = $user->name;
+        $data['from'] = 'admin@pm.com';
         
-        Mail::to($user->user->email)->send(new TicketMail($data));
+        Mail::to($user->email)->send(new TicketMail($data));
 
         return redirect()->route('admin-main');
     }
