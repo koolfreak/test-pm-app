@@ -81,6 +81,26 @@ class Dashboard extends Controller {
         return response()->json(['success'=>true]);
     }
 
+    public function closeTicket($ticket_id)
+    {
+        $ticket = IssueTicket::find( $ticket_id );
+        $ticket->status = 2;
+        $ticket->save();
+
+        // send email for closed ticket
+        $data = array();
+        $data['type'] = 'close';
+        $data['ticket_id'] = $ticket->ticket_id;
+        $data['subject'] = "Closed ticket # ".$ticket->ticket_id;
+        $user = $ticket->user;
+        $data['to_name'] = $user->name;
+        $data['from'] = 'admin@pm.com';
+        
+        Mail::to($user->email)->send(new TicketMail($data));
+
+        return redirect()->route('customer-main');
+    }
+
     private function getToken($length){
         $token = "";
         $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

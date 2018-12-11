@@ -1,6 +1,8 @@
-Hi Admin,
+Hi Admin,<br/>
 
-A newly created ticket with ticket id of <ticket_id> from <from_name>.
+<p>
+A newly created ticket with ticket number #{{ $data['ticket_id'] }} from {{ $data['from_name'] }}.
+</p>
     <br/>
 Thanks,<br/>
 PM System

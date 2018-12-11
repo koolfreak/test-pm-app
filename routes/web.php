@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/', 'Customer\Dashboard@index')->name('customer-main');
         Route::get('/ticket/add', 'Customer\Dashboard@addTicket')->name('customer-ticket-add');
+        Route::get('/ticket/close/{ticket_id}', 'Customer\Dashboard@closeTicket')->name('customer-ticket-close');
         Route::post('/ticket/reply/add', 'Customer\Dashboard@addReply')->name('customer-ticket-add-reply');
         Route::get('/ticket/replies/{id}', 'Customer\Dashboard@ticketReplies')->name('customer-ticket-replies');
         Route::post('/ticket/store', 'Customer\Dashboard@createTicket')->name('customer-ticket-store');

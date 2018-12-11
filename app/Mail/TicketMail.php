@@ -31,9 +31,19 @@ class TicketMail extends Mailable
     public function build()
     {
         if( $this->data['type'] == 'create'){
-            return $this->subbject($this->data['subject'])
+            return $this->subject($this->data['subject'])
                     ->from($this->data['from'])
                     ->view('mail.create_ticket');
+        }
+        if( $this->data['type'] == 'reply'){
+            return $this->subject($this->data['subject'])
+                    ->from($this->data['from'])
+                    ->view('mail.reply_ticket');
+        }
+        if( $this->data['type'] == 'close'){
+            return $this->subject($this->data['subject'])
+                    ->from($this->data['from'])
+                    ->view('mail.closed_ticket')->with('data', $this->data);
         }
         return $this->view('view.name');
     }

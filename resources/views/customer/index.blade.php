@@ -32,11 +32,12 @@
                             In Progress
                          @endif
                          @if( $ticket->status == 2 )
-                            In Progress
+                            Closed
                          @endif
                     </td>
                      <td>
-                         <a href="{{ route('customer-ticket-replies',$ticket->id) }}">View Reply</a>
+                         <a href="{{ route('customer-ticket-replies',$ticket->id) }}">View</a>&nbsp;|&nbsp;
+                         <a href="{{ route('customer-ticket-close',$ticket->id) }}">Close</a>
                      </td>
                  </tr>
                 @endforeach

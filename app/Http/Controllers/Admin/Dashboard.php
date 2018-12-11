@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
 use App\Models\IssueTicket;
 use App\Models\IssueTicketReply;
+use App\Mail\TicketMail;
 
 class Dashboard extends Controller {
 
@@ -45,7 +47,38 @@ class Dashboard extends Controller {
             $ticket->save();
         }
 
+        // send email to customer for a reply to the ticket
+        $data = array();
+        $data['type'] = 'reply';
+        $data['ticket_id'] = $ticket->ticket_id;
+        $data['subject'] = "Reply to ticket # ".$ticket->ticket_id;
+        $data['from'] = 'admin@pm.com';
+        $data['reply_message'] =$request->input('message');
+        $data['to_name'] = $ticket->user->name;
+
+        Mail::to( $ticket->user->email )->send(new TicketMail($data));
+
         return response()->json(['success'=>true]);
+    }
+
+    public function closeTicket($ticket_id)
+    {
+        $ticket = IssueTicket::find( $ticket_id );
+        $ticket->status = 2;
+        $ticket->save();
+
+        // send email for closed ticket
+        $data = array();
+        $data['type'] = 'close';
+        $data['ticket_id'] = $ticket->ticket_id;
+        $data['subject'] = "Closed ticket # ".$ticket->ticket_id;
+        $user = $ticket->user;
+        $user['to_name'] = $user->name;
+        $user['from'] = 'admin@pm.com';
+        
+        Mail::to($user->user->email)->send(new TicketMail($data));
+
+        return redirect()->route('admin-main');
     }
 
 }
