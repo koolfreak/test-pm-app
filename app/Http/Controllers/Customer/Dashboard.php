@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
 use App\Models\IssueTicket;
 use App\Models\IssueTicketReply;
+use App\Mail\TicketMail;
 
 class Dashboard extends Controller {
 
@@ -30,7 +32,16 @@ class Dashboard extends Controller {
         $ticket->ticket_id = $ticket_id;
         $ticket->save();
 
-        // TODO send email to customer
+        // send email to customer for newly created ticket
+        $data = array();
+        $data['type'] = 'create';
+        $data['ticket_id'] = $ticket_id;
+        $data['subject'] = "New ticket # ".$ticket_id;
+        $user = $ticket->user;
+        $data['from'] = $user->email;
+        $data['from_name'] = $user->name;
+
+        Mail::to('admin@pmsystem.com')->send(new TicketMail($data));
 
         return redirect()->route('customer-main');
     }
@@ -69,7 +80,7 @@ class Dashboard extends Controller {
 
         return response()->json(['success'=>true]);
     }
-    
+
     private function getToken($length){
         $token = "";
         $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

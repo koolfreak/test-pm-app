@@ -19,7 +19,9 @@
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#">{{ session()->get('current_user') }}</a></li>
-        <li><a href="/logout">Logout</a></li>
+          @if( session()->has('current_user') )
+            <li><a href="/logout">Logout</a></li>
+          @endif
       </ul>
 
       <ul id="nav-mobile" class="sidenav">

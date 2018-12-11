@@ -15,7 +15,7 @@ Route::get('/', function () {    return view('main.login'); });
 Route::get('/login', function () {    return view('main.login'); });
 Route::post('/login', 'Auth\LoginController@authenticate')->name('main-login');
 Route::get('/logout', 'Auth\LoginController@logout');
-
+Route::get('/view_ticket/{ticket_id}', 'Controller@viewTicket')->name('public-view-ticket');
 
 Route::middleware(['auth'])->group(function () {
 
