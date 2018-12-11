@@ -37,6 +37,7 @@ class Dashboard extends Controller {
 
     public function ticketList()
     {
+        $tickets = IssueTicket::all();
         
     }
 

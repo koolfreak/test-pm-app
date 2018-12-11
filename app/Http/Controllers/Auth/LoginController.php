@@ -39,7 +39,7 @@ class LoginController extends Controller
 
     public function index()
     {
-      return view('auth.index');
+      return view('main.login');
     }
 
     public function authenticate(){
