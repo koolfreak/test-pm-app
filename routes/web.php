@@ -16,6 +16,9 @@ Route::get('/login', function () {    return view('main.login'); });
 Route::post('/login', 'Auth\LoginController@authenticate')->name('main-login');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/view_ticket/{ticket_id}', 'Controller@viewTicket')->name('public-view-ticket');
+// upload files
+Route::post('/ticket/upload', 'Controller@uploadTicketFIle')->name('public-upload-file');
+Route::get('/ticket/download/{id}', 'Controller@downloadTicketFIle')->name('public-download-file');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -26,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ticket/reply/{id}', 'Admin\Dashboard@ticketReplies')->name('admin-ticket-reply');
         Route::post('/ticket/reply/add', 'Admin\Dashboard@addReply')->name('admin-ticket-add-reply');
         Route::get('/ticket/close/{ticket_id}', 'Admin\Dashboard@closeTicket')->name('admin-ticket-close');
-
+        
     });
 
     Route::prefix('customer')->group( function (){
